@@ -1,0 +1,156 @@
+{% extends 'layout-root.html' %}
+
+{% block title %}
+  {% if page_mode_value == 'GRADING' %}
+    Grading {{ anonymized_name }} in {{ g.exam.exam_name }}
+  {% elif page_mode_value == 'REVIEW' %}
+    Reviewing {{ anonymized_name }} in {{ g.exam.exam_name }}
+  {% endif %}
+{% endblock %}
+
+{% set vars = namespace(current_identifier=none, points_sum=-1) %}
+
+{% set ns = namespace(has_invalid_points=false, has_grading_pending=false, has_skipped_gradings=false) %}
+
+{% macro task_title(name, display_points=true) %}
+  <div class="flex-row center-content">
+  <div class="limit-width">
+  <section class="task-title">
+    <h3 class="small-margin">{{ name }}</h3>
+  </section>
+  </div>
+  </div>
+{% endmacro %}
+
+{% macro subtask(identifier, points_value, display_identifier=true, display_aside=true) %}
+  <div class="flex-row center-content">
+    <div class="limit-width">
+      <div class="subtask-container flex-row">
+        {% set vars.current_identifier = identifier %}
+
+        {% if display_identifier is true %}
+        <style>
+          #subtask-{{ identifier }} > p:first-of-type:before {
+              content: "{{ identifier }}) ";
+              font-weight: bold;
+          }
+        </style>
+        {% endif %}
+
+        <section class="subtask {{ 'fullwidth' if display_aside is false }}" id="subtask-{{ identifier }}">
+          {{ caller() }}
+        </section>
+
+        {% if display_aside is true %}
+        <aside>
+          <div class="vue-individual-grading-subtask-aside-app" data-subtask-identifier="{{ identifier }}"></div>
+        </aside>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+{% endmacro %}
+
+{% macro row(full_width=False) %}
+  <div class="flex-row center-content">
+    {% if full_width is false %}
+    <div class="limit-width">
+    {% endif %}
+
+      <div class="flex-row">
+        {{ caller() }}
+      </div>
+
+    {% if full_width is false %}
+    </div>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{% macro section(use_aside_space=false) %}
+  <div class="flex-row center-content">
+    <div class="limit-width">
+      <div class="flex-row">
+        <section class=" {{ 'fullwidth' if use_aside_space is true }}">
+          {{ caller() }}
+        </section>
+      </div>
+    </div>
+  </div>
+{% endmacro %}
+
+{% macro input(identifier, label='', multiline=false, cols=20, rows=2, size=20, maxlength=524288, placeholder="", monospace=False, autosave=False, for_writing=False, word_counting=False, type="text") %}
+{#  {{ task_input(vars.current_identifier, identifier, label=label, multiline=multiline, size=size, cols=cols, rows=rows, maxlength=maxlength, placeholder=placeholder, monospace=monospace, autosave=autosave, for_writing=for_writing, word_counting=word_counting) }}#}
+  <div class="vue-subtask-field-grading-app" data-field-identifier="{{ vars.current_identifier }}_{{ identifier }}" data-field-type="{{ type }}" data-subtask-identifier="{{ vars.current_identifier }}">
+    {% if label is not none and label|length > 0 %}
+      <label>{{ label|safe }}</label>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{% macro feedback(identifier, valid_hashes, label='', correct=none, incorrect=none, placeholder=none, consider_whitespaces=True, trim_whitespaces=True, consider_capitalization=True) %}
+  <p class="smaller">Note: There was feedback for examinees on this field.</p>
+
+{#
+  {{ task_feedback(vars.current_identifier, identifier, valid_hashes, label=label, correct=correct, incorrect=incorrect, placeholder=placeholder, consider_whitespaces=consider_whitespaces, trim_whitespaces=trim_whitespaces, consider_capitalization=consider_capitalization) }}
+#}
+{% endmacro %}
+
+{% block scripts %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/hljs-a11y-light.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/hljs-a11y-dark.min.css') }}" media="(prefers-color-scheme: dark)">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/katex.css') }}">
+
+  {% if page_mode_value == 'GRADING' or page_mode_value == 'REVIEW' %}
+    <script>const PAGE_MODE = '{{ page_mode_value }}'</script>
+  {% endif %}
+  <script type="module" crossorigin src="{{ url_for('static', filename='js/main.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/highlight.min.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/katex.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/showtask.js') }}" defer></script>
+
+{% endblock %}
+
+{% block innermain %}
+<div class="limit-width">
+{#  <div class="vue-component">Test world</div>#}
+  <header>
+    <h3></h3>
+  </header>
+
+  <div class="vue-exam-summary-app">
+      <div class="loading-container">
+        <div class="spinner"></div>
+      </div>
+  </div>
+
+  </div>
+  <div class="all-tasks-container mt-2 hidden">
+  {% if task_templates|length > 0 %}
+{#    {% for taskname, template_file, to_include in task_templates %}#}
+    {% for template_file in task_templates %}
+      {% set vars.points_sum=points_sum %}
+{#      {% if to_include is true %}#}
+        <div class="task-container">
+          {% include template_file %}
+        </div>
+{#      {% endif %}#}
+    {% endfor %}
+  {% endif %}
+  </div>
+
+  <footer class="page-footer limit-width">
+    {% include "includes/footer.inc.html" %}
+  </footer>
+
+{% endblock %}
+
+{% block nav %}
+  {% if page_mode_value == 'GRADING' %}
+    {{ super() }}
+  {% endif %}
+{% endblock %}
+
+{% block afternav %}
+{% endblock %}

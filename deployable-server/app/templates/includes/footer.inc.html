@@ -1,0 +1,17 @@
+<hr class="mb-0" />
+<div class="flex-row flex-align-items-baseline smaller mt-05" style="justify-content: space-between">
+  <div class="flex-row">
+    {% if 'user' in g and g.user is not none and g.user.pseudonym is not none %}
+      <div class="" style="align-self: flex-start">
+        You are <em>{{ g.user.pseudonym }}</em>
+        {% if g.user.public_key is not none %}
+          <span class="">(public key: <code>{{ g.user.public_signing_key_hex }}</code>)</span>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+  <div class="flex-row flex-justify-content-end flex-align-items-baseline flex-col-gap-1">
+    <div>Legal Notice (redacted)</div>
+    <div><a href="{{ url_for('base.privacy') }}" class="inverted">Privacy Policy</a></div>
+  </div>
+</div>

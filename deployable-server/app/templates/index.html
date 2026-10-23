@@ -1,0 +1,30 @@
+{% extends 'layout-root.html' %}
+
+{% block title %}
+  Home
+{% endblock %}
+
+{% block nav %}
+{% endblock %}
+
+{% block section %}
+  <h3>privacy-preserving grading application</h3>
+
+  <div class="flex-row flex-gap-2">
+    <div class="bordered-container p-1 flex-grow-1 flex-basis-0 height-fit-content">
+      <h4 class="mt-0">I am a grader.</h4>
+      <p>If you are <strong>a grader</strong>, you need to either use a) the invite link that an exam organizer sent to you and accept the invitation, or b) after accepting an invitation, use your saved personal exam-specific welcome link to return back to grading the exam.</p>
+      <p>If you lost your <em>invitation link</em>, ask the exam organizer to provide you with a new one.</p>
+      <p>
+        If you lost your <em>personal welcome link</em>, you may find it on the <a href="{{ url_for('base.credentials') }}">Your exams</a> page.
+        You may also use that page to recover a welcome link using your saved recovery file.
+        If there is no corresponding entry for the exam you are searching, and you do not have access to your recovery file, you must ask the exam's organizer to provide you with a new invitation.
+      </p>
+    </div>
+    <div class="bordered-container p-1 flex-grow-1 flex-basis-0 height-fit-content">
+      <h4 class="mt-0">I am an examinee.</h4>
+      <p>If you are <strong>an examinee</strong> and want to inspect your exam results, you need to use the personal post-exam review link sent to you by the organizer of the exam.</p>
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,143 @@
+body {
+    font-size: 12pt;
+}
+
+body > nav {
+    display: none;
+}
+
+aside#individual-grading-aside {
+    display: none;
+}
+
+div.grading-type-container {
+    display: none;
+}
+
+div.keep-open-container {
+    display: none;
+}
+
+pre.submission {
+    border-left: 3px solid darkorange;
+    font-size: 12pt;
+    word-wrap: break-word;
+	white-space: pre-wrap;
+}
+
+.hidable-action {
+    display: none;
+}
+
+.grading-box {
+    /*border: none;*/
+    border-width: 3px;
+    border-color: #16477c !important;
+    /*border-bottom: 3px solid #16477c;*/
+    /*border-radius: 0;*/
+}
+
+main {
+    /*page-break-after: avoid;*/
+    /*page-break-before: avoid;*/
+    /*grid-template-columns: 0 min(50rem,82%) min(45rem,18%) 0;*/
+    padding-top: 0;
+}
+
+.input-container, textarea.subtask-textarea {
+    border-width: 2px;
+    padding: 1px 1px;
+}
+
+/*.input-container.save-success, textarea.save-success {*/
+/*    border-color: #0d47a1;*/
+/*}*/
+
+.flex-row > aside {
+    font-size: inherit;
+    margin-bottom: 0;
+}
+
+.flex-row > section {
+    padding: 0;
+}
+
+section.task-title {
+    break-before: page;
+}
+
+p {
+    break-inside: avoid;
+}
+
+div.subtask-container {
+    /*page-break-inside: avoid;*/
+}
+
+div.vue-subtask-field-grading-app {
+    page-break-inside: avoid;
+}
+
+.subtask-input, .subtask-textarea {
+    padding: 0.2rem;
+    border-width: 1px;
+}
+
+.subtask-textarea {
+    margin-bottom: 0;
+}
+
+section {
+    /*page-break-after: avoid;*/
+    /*page-break-before: avoid;*/
+    /*page-break-inside: avoid;*/
+}
+
+div.textarea-container {
+    margin-bottom: 0;
+}
+
+footer.page-footer {
+    display: none;
+}
+
+h3 {
+    font-size: 16pt;
+}
+
+.limit-width {
+    /* Reduces the number of pages needed. */
+    width: 100%;
+}
+
+pre, pre.verbatim, pre.verb, p.verbatim, p.verb {
+    font-size: 10pt;
+    overflow: visible;
+    border: none;
+    border-left: 1px solid gray;
+    border-radius: 0;
+}
+
+pre.line-numbers {
+    border-left: none;
+}
+
+.development-mode {
+    border: none;
+}
+
+.flex-row > aside.small-margin {
+    margin-left: 0.05rem;
+}
+
+.flex-row > aside ol.small-margin {
+    margin-left: 0.05rem;
+}
+
+.flex-row > ol {
+    padding-left: 0.8rem;
+}
+
+aside {
+    min-width: 24rem;
+}

@@ -1,0 +1,33 @@
+{{ task_title("Task 1: Common Knowledge") }}
+
+{% call subtask('1a', 3) %}
+  <p>
+    This first subtask focuses on seasons on Earth.
+  </p>
+
+  {{ input("season_name", type="text", label='Provide the name of the season that follows after winter.') }}
+
+  {{ input("season_explanation", type="text", multiline=True, rows=3, cols=65, label='Explain why there are seasons on Earth.') }}
+
+{% endcall %}
+
+{% call subtask('1b', 4) %}
+  <p>
+    The second subtask focuses on biology and photosynthesis.
+  </p>
+
+  {{ input("photosynthesis_ingredients", type="text",label='Name one of the ingredients (reactants) required for trees to perform photosynthesis.') }}
+
+  {{ input("photosynthesis_explanation", type="text", multiline=True, rows=3, cols=65, label='Explain in your own words why photosynthesis is important for life on Earth.') }}
+
+{% endcall %}
+
+{% call subtask('1c', 3) %}
+  <p>
+    The third subtask focuses on social aspects.
+  </p>
+
+  {{ input("separation_powers", type="text", multiline=True, rows=3, cols=65, label='Explain what the separation of powers means in a democracy.') }}
+
+{% endcall %}
+

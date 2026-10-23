@@ -1,0 +1,224 @@
+{% extends 'layout-root.html' %}
+
+{% block title %}
+  Documentation
+{% endblock %}
+
+{% block nav %}
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/documentation.js') }}" defer></script>
+{% endblock %}
+
+{% block section %}
+  <div>
+    <h3>Documentation of the grading application</h3>
+
+    <div>
+      <h4 class="documentation-entry" id="tldr">TL;DR</h4>
+      <ul>
+        <li>This is a <em>privacy-preserving</em> app for grading e-exams.</li>
+        <li>It covers three stages of the exam lifecycle: grading, optional second-grader reassessment, and optional post-exam review by examinees.</li>
+        <li>Use <em>group grading</em> to apply one grading to identical answers across all examinees.</li>
+        <li>Click an examinee's name to open and grade their exam.</li>
+        <li>Choose to grade <em>anonymously</em> without seeing the examinee's real name.</li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="documentation-entry" id="privacy">Privacy-preserving grading</h4>
+      <p>
+        We only store the minimum data needed for examinees and graders.
+        Graders receive random pseudonyms (German city names) instead of real names.
+        It's the examiner's responsibility to control who gets access.
+        For details on what data we store, see our <a href="{{ url_for('base.privacy') }}">privacy policy</a>.
+      </p>
+      <p>
+        There is no automated decision-making in the sense of article 22 GDPR.
+      </p>
+    </div>
+
+    <div>
+      <h4 class="documentation-entry" id="lifecycle">Exam Lifecycle</h4>
+      <p>
+        The exam moves through three phases, modelling its lifecycle (similar to those of paper-based exams).
+      </p>
+      <ol>
+        <li>
+          <strong>Grading phase:</strong> Grade submissions (points, comments, internal annotations).
+          Only in this phase can grades be edited.
+        </li>
+        <li>
+          <strong>Reassessment phase (optional):</strong> Failed students (grade 5.0) are <a href="#reassessment">reassessed</a> by a second grader.
+        </li>
+        <li>
+          <strong>Review phase (optional):</strong> Students receive links to <a href="#review">review</a> their exam results.
+        </li>
+      </ol>
+      {% if g.user.has_permission('access-ui:lifecycle') %}
+      <p>
+        To switch phases, open <em>Exam Lifecycle</em> in the menu.
+        You can move forward or back between phases once the phase-specific conditions are met.
+        Hence, you may switch from the grading phase to the reassessment phase or the exam review phase.
+        Additionally, you may always switch back to the grading phase from any phase.
+      </p>
+      {% endif %}
+    </div>
+
+    <div>
+      <h4 class="documentation-entry" id="multipleExams">Multiple exams</h4>
+      <p>
+        If you have been invited to more than one exam and want to grade them in parallel, you can switch between them using either the
+        <em><a href="{{ url_for('base.credentials') }}">Your Exams</a></em> link or your saved welcome links.
+      </p>
+      <p>
+        Only one exam can be open at a time. Attempting to access another exam without properly switching will result in a <em>"Forbidden"</em> error.
+      </p>
+    </div>
+
+    {% if g.user.has_permission('access-ui:individual-grading') or g.user.has_permission('access-ui:group-grading') %}
+    <div>
+      <h4 class="documentation-entry" id="grading">Grading</h4>
+      <p>
+        You can grade each student's full exam (similar to how you grade paper-based exams).
+        Or use <em>group grading</em> to handle one question across all examinees at once.
+      </p>
+      <h5>Using individual grading</h5>
+      <p>
+        In individual grading, you grade per examinee.
+        Use it to view the entire exam including the task descriptions and the submissions of a single examinee.
+      </p>
+
+      <h5>Using group grading</h5>
+      <p>
+        In group grading, you can focus on all answers to a single subtask question, i.e., a subtask field in which examinees write their answers.
+        You see only examinee answers (not the question text), grouped by identical response.
+        Apply one grading to each group to save time.
+
+        Use filters (e.g., case-insensitive matching) to adjust grouping.
+        For further information on filtering, see the help in the group grading view.
+      </p>
+      <p>
+        Switch between individual and group grading via the menu.
+        In individual grading, click a field name to jump to its group view.
+        In group grading, click a student's name to return to their individual exam.
+      </p>
+    </div>
+
+    <div>
+      <h4 class="documentation-entry" id="rewarding">Assigning points to answers</h4>
+      <p>
+        To assign points (positive integers only), enter your grading below each answer in the format: <br/>
+        <code>&lt;points&gt; &lt;optional comment&gt; # &lt;optional internal annotation&gt;</code>.
+      </p>
+      <p>
+        The <em>points and the optional comment</em> are visible to examinees when they inspect their exam results.
+        The <em>optional internal annotation</em> is only visible to other graders (and not to examinees).
+      </p>
+      <ul>
+        <li>Example: "<code>3</code>" assigns three points.</li>
+        <li>Example: "<code>2 correct</code>" assigns two points with the comment "correct" (visible to examinees).</li>
+        <li>Example: "<code>1 # needs review</code>" assigns one point and adds the internal annotation "needs review" (only visible to graders).</li>
+        <li>Example: "<code>5 partially correct # please verify</code>" assigns five points with the comment "partially correct" (visible to examinees) and the internal annotation "please verify" (only visible to graders).</li>
+        <li>Example: "<code># unsure</code>" adds an internal annotation (only visible to graders) without awarding points.</li>
+      </ul>
+      <p>
+        Your gradings are always automatically saved (indicated with a green border around the input field).
+      </p>
+    </div>
+    {% endif %}
+
+    {% if g.user.has_permission('access-ui:points-and-grades') %}
+    <div>
+      <h4 class="documentation-entry" id="grading-scale">Adjusting the grading scale</h4>
+      <p>
+        In <em>Points and Grades</em>, set the score thresholds for each final grade.
+        You can only edit the scale during the grading phase.
+        Examinees need at least grade 4.0 to pass the exam.
+      </p>
+    </div>
+    {% endif %}
+
+    {% if g.user.has_permission('access-ui:graders') %}
+    <div>
+      <h4 class="documentation-entry" id="invite">Inviting other graders</h4>
+      <p>
+        To add colleagues as graders, go to the <em>Graders</em> page.
+        Choose the grader role (defines their permissions).
+        Click <em>Create grader</em> to generate an invitation link.
+        Send that invitation link to your colleague - they can start grading once they accept.
+      </p>
+      <p>
+        <strong>Warning: </strong> Never share your personal invitation or welcome link! This link is meant for your eyes only!
+      </p>
+    </div>
+    {% endif %}
+
+    <div>
+      <h4 class="documentation-entry" id="reassessment">Reassessment</h4>
+      <p>
+        The grading application supports the reassessment by a second corrector.
+        Only the exams of examinees that showed up and failed the exam (grade 5,0) have to be reassessed.
+        As a reassessment grader, open <em>Overview</em>, click a failed exam, review the markings, and click <em>Approve gradings</em> to sign the current submissions and gradings with your private key.
+      </p>
+      {% if g.user.has_permission('access-ui:graders') %}
+      <p>
+        For reassessment, you must <a href="#invite">invite</a> the second corrector.
+        Select the <em>Reassessment grader</em> role.
+        Ensure the exam phase is set to <em>Reassessment</em>.
+      </p>
+      {% endif %}
+    </div>
+
+    <div>
+      <h4 class="documentation-entry" id="review">Post-exam review</h4>
+      <p>
+        The grading application allows examinees to review their exam results.
+        Students use personal review links to see their results during the review period.
+      </p>
+      {% if g.user.has_permission('access-ui:manage-post-exam-review') %}
+      <p>
+        The examinees can only view their exam results during the review period.
+        Configure the review period on the <em>Post-Exam Review</em> page.
+        From there, download each examinee's link and distribute it to the examinees.
+      </p>
+      {% endif %}
+    </div>
+
+    {% if g.user.has_permission('access-ui:points-and-grades') %}
+    <div>
+      <h4 class="documentation-entry" id="exporting">Exporting points and grades</h4>
+      <p>
+        Use the export option under <em>Points and Grades</em> to download all examinees' total points and final grades.
+        This file can be imported into grade management tools.
+      </p>
+    </div>
+    {% endif %}
+
+    <div>
+      <h4 class="documentation-entry" id="security">Security aspects</h4>
+      <h5>Ensuring confidentiality</h5>
+      <p>
+        All examinee submissions, their gradings, and personal data are encrypted.
+        Decryption happens only in the user's browser.
+        Only exam tasks remain unencrypted on the server.
+      </p>
+
+      <h5>Protecting integrity</h5>
+      <p>
+        We use authenticated encryption to prevent tampering.
+        All grades and reassessments are signed with the grader's private key (generated client-side).
+        The private key never leaves the browser.
+      </p>
+    </div>
+  </div>
+{% endblock %}
+
+{% block aside %}
+  <div class="mt-3">
+    Outline
+    <ul id="documentation-outline" class="py-0 my-0">
+    </ul>
+  </div>
+{% endblock %}

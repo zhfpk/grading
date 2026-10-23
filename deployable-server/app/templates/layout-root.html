@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+    <title>{% block title %}{% endblock %} (grading)</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/simple.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/remixicon.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/flexoki.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/exam.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/grading.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/IosevkaTerm.css') }}">
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> {# end the annoying favicon requests #}
+
+    <script type="module" crossorigin src="{{ url_for('static', filename='js/main.min.js') }}"></script>
+
+{#    {% if g.lang is not none and g.lang.selected_language.get_js_script_language_file() is not none %}#}
+{#      <script src="{{ url_for('static', filename='js/lang/' + g.lang.selected_language.get_js_script_language_file()) }}"></script>#}
+{#    {% endif %}#}
+{#    <script src="{{ url_for('static', filename='js/language.js') }}" defer></script>#}
+
+{#    <script src="{{ url_for('static', filename='js/grading.js') }}" defer></script>#}
+    <link rel="stylesheet" crossorigin href="{{ url_for('static', filename='css/main.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/print.css') }}" media="print">
+    {% block scripts %}{% endblock %}
+  </head>
+  <body>
+
+    {% block beforenav %}
+      <div id="credentialsPresentWarningComponent"></div>
+    {% endblock %}
+
+    {% block nav %}
+      <nav>
+        <div class="flex-row space-between">
+          <div>
+            <ul>
+              {% if 'exam' in g and g.exam is not none %}
+                {% if g.user is not none and g.user.has_permission("access-ui:exam-overview") %}
+                  <li class="{{ "active" if request.url_rule.endpoint == 'grading.overview' }}">
+                    <a href="{{ url_for('grading.overview', exam=g.exam.exam_name) }}">Overview</a>
+                  </li>
+                {% endif %}
+
+                {% if request.url_rule.endpoint == 'grading.individual_exam_grading' %}
+                  <li class="active">
+                    <a href="">Grading examinee</a>
+                  </li>
+                {% endif %}
+
+                {% if g.user is not none and g.user.has_permission("access-ui:group-grading") %}
+                  <li class="{{ "active" if request.url_rule.endpoint == 'grading.subtask_field_grading' }}">
+                    <a href="{{ url_for('grading.subtask_field_grading', exam=g.exam.exam_name) }}">Group Grading</a>
+                  </li>
+                {% endif %}
+
+                {% if g.user is not none and g.user.has_permission("access-ui:lifecycle") %}
+                  <li class="{{ "active" if request.url_rule.endpoint == 'admin.lifecycle' }}">
+                    <a href="{{ url_for('admin.lifecycle', exam=g.exam.exam_name) }}">Exam Lifecycle</a>
+                  </li>
+                {% endif %}
+
+                {% if g.user is not none and g.user.has_permission("access-ui:manage-post-exam-review") %}
+                  <li class="{{ "active" if request.url_rule.endpoint == 'admin.review' }}">
+                    <a href="{{ url_for('admin.review', exam=g.exam.exam_name) }}">Post-Exam Review</a>
+                  </li>
+                {% endif %}
+
+  {#              {% if g.user is not none and g.user.has_permission("access-ui:statistics") %}#}
+  {#                <li class="{{ "active" if request.url_rule.endpoint == 'statistics.index' }}">#}
+  {#                  <a href="{{ url_for('statistics.index', exam=g.exam.exam_name) }}">Statistics</a>#}
+  {#                </li>#}
+  {#              {% endif %}#}
+
+                {% if g.user is not none and g.user.has_permission("access-ui:graders") %}
+                  <li class="{{ "active" if request.url_rule.endpoint == 'admin.graders' }}">
+                    <a href="{{ url_for('admin.graders', exam=g.exam.exam_name) }}">Graders</a>
+                  </li>
+                {% endif %}
+
+                {% if g.user is not none and g.user.has_permission("access-ui:points-and-grades") %}
+                  <li class="{{ "active" if request.url_rule.endpoint == 'admin.points_and_grades' }}">
+                    <a href="{{ url_for('admin.points_and_grades', exam=g.exam.exam_name) }}">Points and Grades</a>
+                  </li>
+                {% endif %}
+
+              {% endif %}
+            </ul>
+          </div>
+          <div>
+            <ul class="">
+              <li class="{{ "active" if request.url_rule.endpoint == 'base.credentials' }}">
+                <a href="{{ url_for('base.credentials') }}" title="Your exams" target="_blank">
+                  <span class="fs-95">
+                    Your exams
+                  </span>
+                </a>
+              </li>
+              <li class="{{ "active" if request.url_rule.endpoint == 'base.documentation' }}">
+                <a href="{{ url_for('base.documentation', exam=g.exam.exam_name) }}" title="Documentation" target="_blank">
+                  <span class="fs-95">
+                    <i class="ri-question-line"></i> Help
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <hr />
+      </nav>
+    {% endblock %}
+
+    {% block afternav %}{% endblock %}
+
+    {% block main %}
+      <main class="flex-row flex-wrap center-content">
+        {% block innermain %}
+        <div class="limit-width">
+          <header>
+            {% block header %}{% endblock %}
+          </header>
+
+          {% block content %}
+          <div class="flex-row">
+            <section>
+              {% block section %}{% endblock %}
+            </section>
+            <aside>
+              {% block aside %}{% endblock %}
+            </aside>
+          </div>
+          {% endblock %}
+
+          <footer class="page-footer">
+            {% include "includes/footer.inc.html" %}
+          </footer>
+
+        </div>
+        {% endblock %}
+      </main>
+    {% endblock %}
+
+    {% block aftermain %} {% endblock %}
+  </body>
+</html>

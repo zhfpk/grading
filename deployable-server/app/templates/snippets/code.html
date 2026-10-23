@@ -1,0 +1,8 @@
+<div class="code-container">
+  {% if line_numbers is not none %}
+    <div class="line-numbers-container">
+      <pre class="line-numbers"><code class="language-plaintext">{{ line_numbers }}</code></pre>
+    </div>
+  {% endif %}
+  <div class="highlighted-code-container flex-grow-1"><pre class="highlighted-code"><code class="language-{{ language }}">{{ code }}</code></pre></div>
+</div>

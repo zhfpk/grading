@@ -1,0 +1,24 @@
+{% extends 'layout-root.html' %}
+
+{% block title %}
+  {{ page_title }}
+{% endblock %}
+
+{% block content %}
+  {% if wrap_with_section == true %}
+    <div class="flex-row">
+      <section>
+        {% if disable_heading != true %}
+          <h3 class="mt-1">{{ page_title }}</h3>
+        {% endif %}
+        <div id="{{ vue_app_name }}"></div>
+      </section>
+      <aside></aside>
+    </div>
+  {% else %}
+    {% if disable_heading != true %}
+      <h3 class="mt-2 mb-1">{{ page_title }}</h3>
+    {% endif %}
+    <div id="{{ vue_app_name }}"></div>
+  {% endif %}
+{% endblock %}

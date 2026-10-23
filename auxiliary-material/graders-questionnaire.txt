@@ -1,0 +1,14 @@
+OPEN => User Experience: Do you have prior experience with grading applications for e-exams?
+LIKERT-5 (SUS) => User Experience: When having to grade exams, I think that I would like to use the grading application frequently.	
+LIKERT-5 (SUS) => User Experience: I found the grading application unnecessarily complex.	
+LIKERT-5 (SUS) => User Experience: I thought the grading application was easy to use.	
+LIKERT-5 (SUS) => User Experience: I think that I would need the support of a technical person to be able to use this grading application.	
+LIKERT-5 (SUS) => User Experience: I found the various functions in this grading application were well integrated.	
+LIKERT-5 (SUS) => User Experience: I thought there was too much inconsistency in this grading application.	
+LIKERT-5 (SUS) => User Experience: I would imagine that most people would learn to use this grading application very quickly.	
+LIKERT-5 (SUS) => User Experience: I found the grading application very cumbersome to use.	
+LIKERT-5 (SUS) => User Experience: I felt very confident using the grading application.	
+LIKERT-5 (SUS) => User Experience: I needed to learn a lot of things before I could get going with this grading application.	
+LIKERT-5 => Grader Anonymity: Assuming I am not the official examiner and there are multiple graders, I prefer that my grading decisions are not attributable to me personally by the students.	
+LIKERT-5 => Share your preferences: I prefer traditional grading on paper over grading with this software.	
+OPEN => Share your preferences: Do you have any further thoughts on the grading application?

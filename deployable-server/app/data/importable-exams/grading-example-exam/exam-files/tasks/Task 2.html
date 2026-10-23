@@ -1,0 +1,45 @@
+{{ task_title("Task 2: Basic Math") }}
+
+{% call section() %}
+  <p>
+    The second task covers basic questions on math.
+  </p>
+{% endcall %}
+
+{% call subtask('2a', 2) %}
+  <p>
+    Solve the following equation for <tex>x</tex>.
+  </p>
+  <p>
+    <tex>6 + 2x = 16</tex>
+  </p>
+
+  {{ input("x", placeholder='', rows=5, cols=65, multiline=True) }}
+
+{% endcall %}
+
+{% call subtask('2b', 4) %}
+  <p>
+    Solve the following equation for <tex>y</tex>. One correct value for <tex>y</tex> is sufficient.
+  </p>
+  <p>
+    <tex>3 + y^{2} = 28</tex>
+  </p>
+
+  {{ input("y", placeholder='', rows=5, cols=65, multiline=True) }}
+
+{% endcall %}
+
+
+{% call subtask('2c', 4) %}
+  <p>
+    Consider the following four statements.
+    For each statement, indicate whether the statement is <em>correct</em> (C) or <em>wrong</em> (W).
+  </p>
+
+  {{ input("triangle_sides", placeholder='C or W', size=5, label="A triangle has four sides.") }}
+  {{ input("dividing", placeholder='C or W', size=5, label="Dividing something in half makes two equal parts.") }}
+  {{ input("twoplustwo", placeholder='C or W', size=5, label="Two plus two is five.") }}
+  {{ input("cube", placeholder='C or W', size=5, label="A cube consists of 6 quadratic faces.") }}
+
+{% endcall %}

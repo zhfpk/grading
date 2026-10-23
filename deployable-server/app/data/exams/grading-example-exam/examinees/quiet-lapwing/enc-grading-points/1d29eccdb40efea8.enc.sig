@@ -1,0 +1,1 @@
+{"signature": "9cee5ad5e8d8dea13ace7b3d12608081c6d0e49f91e4ce648755e745c55fbae3abc328edafb0e615cfdccc53edf334eb614966b1ee9bd46824c60bfa0e50df0d", "public_key": "eef4f704427df4d38f76fc9db9b480f078d6a00ec57e56072b088d27ea5c40d9"}
